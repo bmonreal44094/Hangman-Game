@@ -5,19 +5,27 @@ var guessesSoFar = [];
 var timesRun = 0;
 var wordArray = ["universe", "galaxy", "multiverse", "string", "theory"]; //, "membrain", "heavy", "gravity", "black", "hole", "neutron", "star", "gamma", "ray", "burst", "dwarf", "giant", "supergiant", "pulsar", "binary", "red", "brown", "white", "blue", "cepheid"];
 var word;
-var currentImage = [];
+var currentImage = ["0.jpg", "1.jpg","2.jpg", "3.jfif", "4.jfif",];
 var wordArrayParse = [];
 var blank = " _ ";
 var hiddenWord = [];
 var gameOver = "true";
+var searchPic;
 
 //Runs when computer lets up on a key and picks a value fromthe alphabet array.
 //The compairs the user guess against the computer pick.
 document.onkeyup = function(event) {
 
-	// Determines which key was pressed and converts it to lowercase
-	var userInput = event.key;
-	userInput = userInput.toLowerCase();
+	if (event.keyCode < 65 || event.keyCode > 90) {
+		document.querySelector("#enterCorrectKey").innerHTML = "Enter a Lowercase Letter Pal!!!";
+	}
+
+	else {
+		// Determines which key was pressed and converts it to lowercase
+		var userInput = event.key;
+		userInput = userInput.toLowerCase();
+		document.querySelector("#enterCorrectKey").innerHTML = "Continue";
+	}
 
 	if (gameOver === "true") {
 		chooseWord();
@@ -32,18 +40,19 @@ document.onkeyup = function(event) {
 			gameOver = "false";
 		}
 
-		else {
+		else  {
 			guessesSoFar.push(userInput);
 			compareLetter();
 			guessesLeft--;
 		}
+
 	}
 
 	//Choses a word from the wordArray, loads a blank version into hiddenWord
 	//and then calles the loadParse function
 	function chooseWord () {
 		word = wordArray[Math.floor(Math.random() * wordArray.length)];
-		guessesLeft = (wordArray.length +1) * 2;
+		guessesLeft = (wordArray.length + 1) * 2;
 		for (var i = 0; i < word.length; i++) {
 			hiddenWord.push(blank);
 		}
@@ -102,6 +111,7 @@ document.onkeyup = function(event) {
 
 	//Resets the values on the screen and variables that will change on the new word
 	function reset() {
+		document.querySelector("#enterCorrectKey").innerHTML = "Press any key to get started!";
 		document.querySelector("#guessesSoFar").innerHTML = "";
 		document.querySelector("#guessesLeft").innerHTML = "";
 		document.querySelector("#currentWord").innerHTML = "";
@@ -111,10 +121,22 @@ document.onkeyup = function(event) {
 		gameOver = "true";
 	}
 
+
+	
+	//function loadImages() {
+	    //searchPic = new Image(450,350);
+	    //searchPic.src = ("assets/images/" + currentImage[(wordArray.indexOf(word))]);
+		//console.log(searchPic.src);
+	//}
+
 	//if player or computer win this gives an alert and calls the reset function
 	function winOrLose() {
 		if (hiddenWord.indexOf(blank) < 0) {
 			//refreshScreen();
+			//loadImages();
+			//document["#wordImage"].src = searchPic.src;
+			//var imageHolder = currentImage[(wordArray.indexOf(word))];
+			//document.querySelector("").innerHTML = "assets/images/0.jpg";
 			wins++;
 			reset();
 			document.querySelector("#wins").innerHTML = "You Win Pal!";
